@@ -14,15 +14,11 @@ namespace VVM.Controllers
             _context = context;
         }
 
-        // GET: Drinks
         public async Task<IActionResult> Index()
         {
-              return _context.Drinks != null ? 
-                          View(await _context.Drinks.ToListAsync()) :
-                          Problem("Entity set 'VVMContext.Drinks'  is null.");
+            return View(await _context.Drinks.ToListAsync());
         }
 
-        // GET: Drinks/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Drinks == null)
@@ -40,18 +36,14 @@ namespace VVM.Controllers
             return View(drinks);
         }
 
-        // GET: Drinks/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Drinks/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,name,description,count,price")] Drinks drinks)
+        public async Task<IActionResult> Create([Bind("Id,Name,Description,Count,Price")] Drinks drinks)
         {
             if (ModelState.IsValid)
             {
@@ -62,8 +54,7 @@ namespace VVM.Controllers
             return View(drinks);
         }
 
-        // GET: Drinks/Edit/5
-        public async Task<IActionResult> Edit(Guid? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Drinks == null)
             {
@@ -78,12 +69,9 @@ namespace VVM.Controllers
             return View(drinks);
         }
 
-        // POST: Drinks/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,name,description,count,price")] Drinks drinks)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Count,Price")] Drinks drinks)
         {
             if (id != drinks.Id)
             {
@@ -113,7 +101,6 @@ namespace VVM.Controllers
             return View(drinks);
         }
 
-        // GET: Drinks/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Drinks == null)
@@ -131,10 +118,9 @@ namespace VVM.Controllers
             return View(drinks);
         }
 
-        // POST: Drinks/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Drinks == null)
             {
@@ -145,14 +131,14 @@ namespace VVM.Controllers
             {
                 _context.Drinks.Remove(drinks);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool DrinksExists(int id)
         {
-          return (_context.Drinks?.Any(e => e.Id == id)).GetValueOrDefault();
+            return _context.Drinks.Any(e => e.Id == id);
         }
     }
 }

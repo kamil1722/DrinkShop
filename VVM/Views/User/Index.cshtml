@@ -1,47 +1,82 @@
-﻿<!DOCTYPE html>
+﻿@model IEnumerable<VVM.Models.Drinks>
+
+<!DOCTYPE html>
 <html>
 <head>
     <style>
-        .button-88 {
-            display: flex;
-            align-items: center;
-            font-family: inherit;
-            font-weight: 500;
-            font-size: 16px;
-            padding: 0.7em 1.4em 0.7em 1.1em;
-            color: white;
-            background: #ad5389;
-            background: linear-gradient(0deg, rgba(20, 167, 62, 1) 0%, rgba(102, 247, 113, 1) 100%);
-            border: none;
-            box-shadow: 0 0.7em 1.5em -0.5em #14a73e98;
-            letter-spacing: 0.05em;
-            border-radius: 20em;
+        .card {
             cursor: pointer;
-            user-select: none;
-            -webkit-user-select: none;
-            touch-action: manipulation;
         }
 
-            .button-88:hover {
-                box-shadow: 0 0.5em 1.5em -0.5em #14a73e98;
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+        }
+
+        .button5 {
+            border: none;
+            outline: none;
+            box-shadow: -4px 4px 5px 0 #feb361;
+            color: #fff;
+            text-shadow: 0 1px rgba(0,0,0,0.4);
+            background-color: #FE9A2E;
+            border-radius: 10px;
+            width: 7em;
+            height: 2em;
+        }
+
+            .button5:hover {
+                background-color: #FF8000;
+                cursor: pointer
             }
 
-            .button-88:active {
-                box-shadow: 0 0.3em 1em -0.5em #14a73e98;
+            .button5:active {
+                margin-left: -4px;
+                margin-bottom: -4px;
+                padding-top: 2px;
+                box-shadow: none
             }
 
         input[type='number'] {
             width: 80px;
         }
+
+        input[type=number]:focus {
+            border: 3px solid #555;
+        }
     </style>
 </head>
 <body>
-    <div class="form-group">
-        <label for="codeDrink">Код напитка:</label>&nbsp;
-        <input type="number" id="codeDrink" name="codeDrink" min="1" max="100">
-        <br>
-        <br>
-        <button class="button-88 button-88">Оплатить</button>
+    @foreach (var item in Model)
+    {
+
+        <div class="card border-warning" style="width: 18rem; display:inline-block;">
+            <div class="card-body">
+                <strong>@Html.DisplayNameFor(model => model.Id) : </strong>
+                @Html.DisplayFor(modelItem => item.Id)
+
+                <br>
+                <strong>@Html.DisplayNameFor(model => model.Name) : </strong>
+                @Html.DisplayFor(modelItem => item.Name)
+
+                <br>
+                <strong>@Html.DisplayNameFor(model => model.Price): </strong>
+                @Html.DisplayFor(modelItem => item.Price)
+
+            </div>
+        </div>
+    }
+
+    <br>
+    <br>
+    <label for="codeDrink">Код напитка:</label>&nbsp;
+    <input type="number" id="codeDrink" name="codeDrink" min=@Html.DisplayFor(model => model.First().Id)
+           max=@Html.DisplayFor(model => model.Last().Id)>&nbsp;
+
+    <input class="button5" type="button" value="Оплатить"><br><br>
+
+    <div style="border-width: thin; width: 100%; position: absolute; top: 70px; left: -10px; text-align: right;">
+        <img src="https://cdn-icons-png.flaticon.com/512/5951/5951686.png" width="32" height="32"> 100 руб
     </div>
 </body>
 </html>

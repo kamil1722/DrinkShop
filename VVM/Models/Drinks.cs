@@ -4,7 +4,8 @@ namespace VVM.Models
 {
 	public class Drinks
 	{
-		public int Id { get; set; }
+        [DisplayName("Код")]
+        public int Id { get; set; }
 
         [DisplayName("Напиток")]
         public string Name { get; set; }
