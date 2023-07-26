@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using VVM.Data;
 using VVM.Models;
 
 namespace VVM.Controllers
 {
-    public class DrinksController : Controller
+    public class AdminController : Controller
     {
         private readonly VVMContext _context;
 
-        public DrinksController(VVMContext context)
+        public AdminController(VVMContext context)
         {
             _context = context;
         }
@@ -28,7 +23,7 @@ namespace VVM.Controllers
         }
 
         // GET: Drinks/Details/5
-        public async Task<IActionResult> Details(Guid? id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Drinks == null)
             {
@@ -36,7 +31,7 @@ namespace VVM.Controllers
             }
 
             var drinks = await _context.Drinks
-                .FirstOrDefaultAsync(m => m.id == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (drinks == null)
             {
                 return NotFound();
@@ -60,7 +55,6 @@ namespace VVM.Controllers
         {
             if (ModelState.IsValid)
             {
-                drinks.id = Guid.NewGuid();
                 _context.Add(drinks);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -89,9 +83,9 @@ namespace VVM.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("id,name,description,count,price")] Drinks drinks)
+        public async Task<IActionResult> Edit(int id, [Bind("id,name,description,count,price")] Drinks drinks)
         {
-            if (id != drinks.id)
+            if (id != drinks.Id)
             {
                 return NotFound();
             }
@@ -105,7 +99,7 @@ namespace VVM.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DrinksExists(drinks.id))
+                    if (!DrinksExists(drinks.Id))
                     {
                         return NotFound();
                     }
@@ -120,7 +114,7 @@ namespace VVM.Controllers
         }
 
         // GET: Drinks/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Drinks == null)
             {
@@ -128,7 +122,7 @@ namespace VVM.Controllers
             }
 
             var drinks = await _context.Drinks
-                .FirstOrDefaultAsync(m => m.id == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (drinks == null)
             {
                 return NotFound();
@@ -156,9 +150,9 @@ namespace VVM.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool DrinksExists(Guid id)
+        private bool DrinksExists(int id)
         {
-          return (_context.Drinks?.Any(e => e.id == id)).GetValueOrDefault();
+          return (_context.Drinks?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

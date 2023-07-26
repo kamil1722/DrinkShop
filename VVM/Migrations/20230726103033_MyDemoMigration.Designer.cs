@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VVM.Data;
 
@@ -10,9 +11,11 @@ using VVM.Data;
 namespace VVM.Migrations
 {
     [DbContext(typeof(VVMContext))]
-    partial class VVMContextModelSnapshot : ModelSnapshot
+    [Migration("20230726103033_MyDemoMigration")]
+    partial class MyDemoMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using VVM.Models;
 
 namespace VVM.Data
@@ -14,6 +10,6 @@ namespace VVM.Data
         {
         }
 
-        public DbSet<VVM.Models.Drinks> Drinks { get; set; } = default!;
+        public DbSet<Drinks> Drinks { get; set; } = default!;
     }
 }
