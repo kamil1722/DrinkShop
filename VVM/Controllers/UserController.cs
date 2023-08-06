@@ -36,5 +36,24 @@ namespace VVM.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpGet]
+        public int GetPrice(int codeDrink)
+        {
+            var drinks = _context.Drinks.SingleOrDefault(x => x.Id == codeDrink);
+
+            if (drinks == null)
+            {
+                return 0;
+            }
+
+            return drinks.Price;
+        }
+
+        [HttpGet]
+        public IActionResult GetCards()
+        {
+            var cards = _context.Drinks.ToList();
+            return PartialView("_Cards", cards);
+        }
     }
 }

@@ -76,29 +76,32 @@
 <body>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-    @foreach (var item in Model)
-    {
-        <div class="card border-warning" id="cardsId" style="width: 18rem; display:inline-block;" onclick="getCode(@Html.DisplayFor(modelItem => item.Id))">
-            <div class="card-body">
+    <div id="cardsContainer">
+        @foreach (var item in Model)
+        {
+            <div class="card border-warning" id="cardsId" style="width: 18rem; display:inline-block;" onclick="getCode(@Html.DisplayFor(modelItem => item.Id))">
+                <div class="card-body">
 
-                <div class="topright">
-                    @Html.DisplayFor(modelItem => item.Count)
+                    <div class="topright">
+                        @Html.DisplayFor(modelItem => item.Count)
+                    </div>
+
+                    <strong>@Html.DisplayNameFor(model => model.Id) : </strong>
+                    @Html.DisplayFor(modelItem => item.Id)
+
+                    <br>
+                    <strong>@Html.DisplayNameFor(model => model.Name) : </strong>
+                    @Html.DisplayFor(modelItem => item.Name)
+
+                    <br>
+                    <strong>@Html.DisplayNameFor(model => model.Price): </strong>
+                    @Html.DisplayFor(modelItem => item.Price)
+
                 </div>
-
-                <strong>@Html.DisplayNameFor(model => model.Id) : </strong>
-                @Html.DisplayFor(modelItem => item.Id)
-
-                <br>
-                <strong>@Html.DisplayNameFor(model => model.Name) : </strong>
-                @Html.DisplayFor(modelItem => item.Name)
-
-                <br>
-                <strong>@Html.DisplayNameFor(model => model.Price): </strong>
-                @Html.DisplayFor(modelItem => item.Price)
-
             </div>
-        </div>
-    }
+        }
+    </div>
+   
     <br>
     <br>
 
@@ -125,49 +128,6 @@
     </p>
 
     <script>
-        $(function () {
-            $('#btnSetPay').click(function (e) {
-                e.preventDefault();
-                var codeDrink = $('#codeDrink').val();
-
-                $.ajax({
-                    type: 'POST',
-                    url: '/User/UpdateCount',
-                    data: { codeDrink: codeDrink },
-                    success: function (result) {
-                        console.log(result);
-                    },
-                    error: function (error) {
-                        console.log(error);
-                    }
-
-                });
-            });
-        });
-    </script>
-
-@*    @section scripts {
-        <script>
-            $(document).ready(function () {
-                $('.btnSetPay').click(function () {
-                    var cardId = $(this).data('id');
-                    $.ajax({
-                        url: '/Controller/UpdatePrice', 
-                        type: 'GET',
-                        data: { id: cardId },
-                        success: function (data) {
-                            $('#price_' + cardId).text(data);
-                        },
-                        error: function (error) {
-                            console.log(error);
-                        }
-                    });
-                });
-            });
-        </script>
-    }*@
-
-    <script>
         var balance = Math.floor(Math.random() * 51) + 100;
         document.getElementById("balance").innerHTML = balance + " руб"
 
@@ -181,6 +141,51 @@
         function getCode(id) {
             document.getElementById("codeDrink").value = id;
         }
+    </script>
+
+    <script>
+        $(function () {
+            $('#btnSetPay').click(function (e) {
+                e.preventDefault();
+                var codeDrink = $('#codeDrink').val();
+                var currentBalance = $('#balance').text();
+
+                // Выполняем первый AJAX-запрос
+                $.ajax({
+                    type: 'POST',
+                    url: '/User/UpdateCount',
+                    data: { codeDrink: codeDrink },
+                })
+                    .then(function (result) {
+                        console.log(result);
+
+                        // Выполняем второй AJAX-запрос после успешного выполнения первого запроса
+                        return $.ajax({
+                            url: '/User/GetPrice',
+                            type: 'GET',
+                            data: { codeDrink: codeDrink },
+                        });
+                    })
+                    .then(function (data) {
+                        var newBalance = parseInt(currentBalance) - +data;
+                        document.getElementById("balance").innerHTML = newBalance + " руб";
+
+                        // Выполняем третий AJAX-запрос после успешного выполнения второго запроса
+                        return $.ajax({
+                            url: '/User/GetCards',
+                            type: 'GET',
+                        });
+                    })
+                    .then(function (data) {
+                        // Обновляем содержимое контейнера cardsContainer
+                        $('#cardsContainer').html(data);
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            });
+        });
+
     </script>
 
 </body>
