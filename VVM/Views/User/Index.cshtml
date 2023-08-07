@@ -2,191 +2,25 @@
 
 <!DOCTYPE html>
 <html>
-<head>
-    <style>
-        .card {
-            cursor: pointer;
-        }
-
-            .card:hover {
-                transform: scale(1.05);
-                box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
-            }
-
-        .submit {
-            border: none;
-            outline: none;
-            box-shadow: -4px 4px 5px 0 #feb361;
-            color: #fff;
-            text-shadow: 0 1px rgba(0,0,0,0.4);
-            background-color: #FE9A2E;
-            border-radius: 10px;
-            width: 7em;
-            height: 2em;
-        }
-
-            .submit:hover {
-                background-color: #FF8000;
-                cursor: pointer;
-                transform: scale(1.2);
-            }
-
-            .submit:active {
-                margin-left: -4px;
-                margin-bottom: -4px;
-                padding-top: 2px;
-                box-shadow: none
-            }
-
-        .submit2 {
-            width: 10em;
-        }
-
-        .submit3 {
-            box-shadow: none;
-            background-color: #282a35;
-            width: 2em;
-            border-radius: 50%;
-        }
-
-            .submit3:hover {
-                background-color: #FF8000;
-                cursor: pointer;
-                transform: scale(1.5);
-            }
-
-        input[type='number'] {
-            width: 80px;
-        }
-
-        input[type=number]:focus {
-            border: 3px solid #555;
-        }
-
-        .topright {
-            position: absolute;
-            top: 8px;
-            right: 16px;
-            font-size: 18px;
-        }
-
-    </style>
-
-</head>
 <body>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-    <div id="cardsContainer">
-        @foreach (var item in Model)
-        {
-            <div class="card border-warning" id="cardsId" style="width: 18rem; display:inline-block;" onclick="getCode(@Html.DisplayFor(modelItem => item.Id))">
-                <div class="card-body">
-
-                    <div class="topright">
-                        @Html.DisplayFor(modelItem => item.Count)
-                    </div>
-
-                    <strong>@Html.DisplayNameFor(model => model.Id) : </strong>
-                    @Html.DisplayFor(modelItem => item.Id)
-
-                    <br>
-                    <strong>@Html.DisplayNameFor(model => model.Name) : </strong>
-                    @Html.DisplayFor(modelItem => item.Name)
-
-                    <br>
-                    <strong>@Html.DisplayNameFor(model => model.Price): </strong>
-                    @Html.DisplayFor(modelItem => item.Price)
-
-                </div>
-            </div>
-        }
-    </div>
-   
-    <br>
-    <br>
-
-    <label for="codeDrink">Код напитка:</label>&nbsp;
-    <input type="number" id="codeDrink" name="codeDrink" min=@Html.DisplayFor(model => model.First().Id)
-           max=@Html.DisplayFor(model => model.Last().Id)>
-    <br>
-    <br>
-    <label for="valueCoin">Сумма(руб):</label>&nbsp;
-    <input type="number" id="valueCoin" name="valueCoin">&nbsp;
-    <input id="btnCoin1" onclick="SetCoin(id)" class="submit submit3" type="submit" value=1>
-    <input id="btnCoin2" onclick="SetCoin(id)" class="submit submit3" type="submit" value=2>
-    <input id="btnCoin5" onclick="SetCoin(id)" class="submit submit3" type="submit" value=5>
-    <input id="btnCoin10" onclick="SetCoin(id)" class="submit submit3" type="submit" value=10>
-    <br>
-    <br>
-    <button type="submit" id="btnSetPay" class="submit">Оплатить</button>
-    <button type="submit" id="btnGetPay" class="submit submit2">Получить сдачу</button>
-
+    <p>
+        <div id="cardsContainer">
+            @await Html.PartialAsync("Cards", Model)
+        </div>
+    </p>
+ 
+    <p>
+        <div>
+            @await Html.PartialAsync("Buttons", Model)
+        </div>
+    </p>
+    
     <p>
         <div style="border-width: thin; width: 100%; position: absolute; top: 70px; left: -10px; text-align: right;">
             <img src="https://cdn-icons-png.flaticon.com/512/5951/5951686.png" width="32" height="32"> <b id="balance"></b>
         </div>
     </p>
-
-    <script>
-        var balance = Math.floor(Math.random() * 51) + 100;
-        document.getElementById("balance").innerHTML = balance + " руб"
-
-        function SetCoin(btnCoin) {
-            var selectValueCoin = document.getElementById(btnCoin).value;
-            var currentValueCoin = document.getElementById("valueCoin").value;
-
-            document.getElementById("valueCoin").value = +selectValueCoin + +currentValueCoin;
-        }
-
-        function getCode(id) {
-            document.getElementById("codeDrink").value = id;
-        }
-    </script>
-
-    <script>
-        $(function () {
-            $('#btnSetPay').click(function (e) {
-                e.preventDefault();
-                var codeDrink = $('#codeDrink').val();
-                var currentBalance = $('#balance').text();
-
-                // Выполняем первый AJAX-запрос
-                $.ajax({
-                    type: 'POST',
-                    url: '/User/UpdateCount',
-                    data: { codeDrink: codeDrink },
-                })
-                    .then(function (result) {
-                        console.log(result);
-
-                        // Выполняем второй AJAX-запрос после успешного выполнения первого запроса
-                        return $.ajax({
-                            url: '/User/GetPrice',
-                            type: 'GET',
-                            data: { codeDrink: codeDrink },
-                        });
-                    })
-                    .then(function (data) {
-                        var newBalance = parseInt(currentBalance) - +data;
-                        document.getElementById("balance").innerHTML = newBalance + " руб";
-
-                        // Выполняем третий AJAX-запрос после успешного выполнения второго запроса
-                        return $.ajax({
-                            url: '/User/GetCards',
-                            type: 'GET',
-                        });
-                    })
-                    .then(function (data) {
-                        // Обновляем содержимое контейнера cardsContainer
-                        $('#cardsContainer').html(data);
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
-            });
-        });
-
-    </script>
-
 </body>
 </html>

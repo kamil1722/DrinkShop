@@ -1,0 +1,66 @@
+﻿.card {
+	cursor: pointer;
+}
+
+.card:hover {
+	transform: scale(1.05);
+	box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+}
+
+.submit {
+	border: none;
+	outline: none;
+	box-shadow: -4px 4px 5px 0 #feb361;
+	color: #fff;
+	text-shadow: 0 1px rgba(0,0,0,0.4);
+	background-color: #FE9A2E;
+	border-radius: 10px;
+	width: 7em;
+	height: 2em;
+}
+
+	.submit:hover {
+		background-color: #FF8000;
+		cursor: pointer;
+		transform: scale(1.2);
+	}
+
+	.submit:active {
+		margin-left: -4px;
+		margin-bottom: -4px;
+		padding-top: 2px;
+		box-shadow: none
+	}
+
+.submit2 {
+	width: 10em;
+}
+
+.submit3 {
+	box-shadow: none;
+	background-color: #282a35;
+	width: 2em;
+	border-radius: 50%;
+}
+
+	.submit3:hover {
+		background-color: #FF8000;
+		cursor: pointer;
+		transform: scale(1.5);
+	}
+
+input[type='number'] {
+	width: 80px;
+}
+
+input[type=number]:focus {
+	border: 3px solid #555;
+}
+
+.topright {
+	position: absolute;
+	top: 8px;
+	right: 16px;
+	font-size: 18px;
+}
+

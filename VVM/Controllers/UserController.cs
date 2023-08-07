@@ -53,7 +53,7 @@ namespace VVM.Controllers
         public IActionResult GetCards()
         {
             var cards = _context.Drinks.ToList();
-            return PartialView("_Cards", cards);
+            return PartialView("Cards", cards);
         }
     }
 }

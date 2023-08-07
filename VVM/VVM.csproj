@@ -22,4 +22,8 @@
     <Folder Include="Resource\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\css\user.css" />
+  </ItemGroup>
+
 </Project>
