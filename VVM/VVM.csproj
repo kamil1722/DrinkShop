@@ -19,11 +19,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Resource\" />
+    <None Include="wwwroot\css\user.css" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\css\user.css" />
+    <Folder Include="App_Data\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

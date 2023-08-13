@@ -7,6 +7,7 @@
 <p>
     <a asp-action="Create">Добавить напиток</a>
 </p>
+
 <table class="table">
     <thead>
         <tr>
@@ -26,25 +27,26 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Count)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Изменить</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
-            </td>
-        </tr>
-}
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Count)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Изменить</a> |
+                    <a href="#" onclick="Delete(@item.Id)">Удалить</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

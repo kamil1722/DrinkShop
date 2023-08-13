@@ -1,12 +1,6 @@
 ﻿@model VVM.Models.Drinks
 
-@{
-    ViewData["Title"] = "Create";
-}
-
-<h1>Create</h1>
-
-<h4>Drinks</h4>
+<h4>Добавление</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -31,17 +25,15 @@
                 <label asp-for="Price" class="control-label"></label>
                 <input asp-for="Price" class="form-control" />
                 <span asp-validation-for="Price" class="text-danger"></span>
-            </div>
+            </div><br>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Сохранить" class="btn btn-primary" /> |
+                <a asp-action="IndexRedirect" asp-controller="Admin">Назад</a>
             </div>
         </form>
     </div>
 </div>
-
-<div>
-    <a asp-action="Admin">Back to List</a>
-</div>
+<br>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

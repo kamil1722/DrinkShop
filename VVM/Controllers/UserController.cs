@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using VVM.Data;
 
@@ -15,7 +16,7 @@ namespace VVM.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Drinks.ToListAsync());
+            return View(await _context.Drinks.Where(x => x.Count > 0).ToListAsync());
         }
 
         [HttpPost]
@@ -51,9 +52,9 @@ namespace VVM.Controllers
 
         [HttpGet]
         public IActionResult GetCards()
-        {
-            var cards = _context.Drinks.ToList();
-            return PartialView("Cards", cards);
+        {          
+            return PartialView("Cards",
+                _context.Drinks.ToList().Where(x => x.Count > 0).ToList());
         }
     }
 }

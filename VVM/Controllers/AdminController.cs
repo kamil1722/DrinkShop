@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using VVM.Data;
 using VVM.Models;
@@ -14,26 +15,20 @@ namespace VVM.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult IndexRedirect()
         {
-            return View(await _context.Drinks.ToListAsync());
+            return RedirectToAction("Index", new { id = 1234 });
         }
 
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Index(int id)
         {
-            if (id == null || _context.Drinks == null)
+            if (id == 1234)
             {
-                return NotFound();
+                var data = await _context.Drinks.ToListAsync();
+                return View(data);
             }
 
-            var drinks = await _context.Drinks
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (drinks == null)
-            {
-                return NotFound();
-            }
-
-            return View(drinks);
+            return NotFound();
         }
 
         public IActionResult Create()
@@ -49,7 +44,7 @@ namespace VVM.Controllers
             {
                 _context.Add(drinks);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", new { id = 1234 });
             }
             return View(drinks);
         }
@@ -96,44 +91,28 @@ namespace VVM.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", new { id = 1234 });
             }
             return View(drinks);
         }
 
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null || _context.Drinks == null)
-            {
-                return NotFound();
-            }
-
-            var drinks = await _context.Drinks
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (drinks == null)
-            {
-                return NotFound();
-            }
-
-            return View(drinks);
-        }
-
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        [HttpDelete, ActionName("Delete")]
+        public async Task<IActionResult> DeleteConfirmed(int itemId)
         {
             if (_context.Drinks == null)
             {
                 return Problem("Entity set 'VVMContext.Drinks'  is null.");
             }
-            var drinks = await _context.Drinks.FindAsync(id);
+            var drinks = await _context.Drinks.FindAsync(itemId);
             if (drinks != null)
             {
                 _context.Drinks.Remove(drinks);
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            var data = await _context.Drinks.ToListAsync();
+            return View(data);
         }
 
         private bool DrinksExists(int id)
