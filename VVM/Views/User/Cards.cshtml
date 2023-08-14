@@ -1,0 +1,24 @@
+﻿@model IEnumerable<VVM.Models.Drinks>
+
+@foreach (var card in Model)
+{
+    <div class="card border-warning" id="cardsId" style="width: 18rem; display:inline-block;" onclick="getCode(@card.Id)">
+        <div class="card-body">
+            <div class="topright">
+               @card.Count
+            </div>
+
+            <strong>@Html.DisplayNameFor(model => model.Id) : </strong>
+            @card.Id
+
+            <br>
+            <strong>@Html.DisplayNameFor(model => model.Name) : </strong>
+            @card.Name
+
+            <br>
+            <strong>@Html.DisplayNameFor(model => model.Price): </strong>
+            @card.Price
+
+        </div>
+    </div>
+}
