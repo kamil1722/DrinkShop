@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using VVM.Data;
+using DrinksProject.Data;
+
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<VVMContext>(options =>
+builder.Services.AddDbContext<MyContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("VVMContext") ?? throw new InvalidOperationException("Connection string 'VVMContext' not found.")));
 
 // Add services to the container.
