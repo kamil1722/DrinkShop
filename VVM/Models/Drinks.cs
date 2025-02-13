@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace VVM.Models
+namespace DrinksProject.Models
 {
 	public class Drinks
 	{

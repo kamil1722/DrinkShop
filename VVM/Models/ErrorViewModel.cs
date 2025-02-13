@@ -1,4 +1,4 @@
-namespace VVM.Models
+namespace DrinksProject.Models
 {
 	public class ErrorViewModel
 	{

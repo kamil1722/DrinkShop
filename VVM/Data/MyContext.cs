@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using VVM.Models;
+using DrinksProject.Models;
 
-namespace VVM.Data
+namespace DrinksProject.Data
 {
-    public class VVMContext : DbContext
+    public class MyContext : DbContext
     {
-        public VVMContext (DbContextOptions<VVMContext> options)
+        public MyContext (DbContextOptions<MyContext> options)
             : base(options)
         {
         }

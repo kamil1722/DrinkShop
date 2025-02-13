@@ -1,16 +1,16 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using VVM.Data;
-using VVM.Models;
+using DrinksProject.Data;
+using DrinksProject.Models;
 
-namespace VVM.Controllers
+namespace DrinksProject.Controllers
 {
     public class AdminController : Controller
     {
-        private readonly VVMContext _context;
+        private readonly MyContext _context;
 
-        public AdminController(VVMContext context)
+        public AdminController(MyContext context)
         {
             _context = context;
         }
@@ -101,7 +101,7 @@ namespace VVM.Controllers
         {
             if (_context.Drinks == null)
             {
-                return Problem("Entity set 'VVMContext.Drinks'  is null.");
+                return Problem("Entity set 'MyContext.Drinks'  is null.");
             }
             var drinks = await _context.Drinks.FindAsync(itemId);
             if (drinks != null)
