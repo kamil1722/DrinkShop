@@ -38,7 +38,7 @@ namespace DrinksProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,Count,Price")] Drinks drinks)
+        public async Task<IActionResult> Create([Bind("Id,Name,Description,Count,Price")] Models.Drinks drinks)
         {
             if (ModelState.IsValid)
             {
@@ -66,7 +66,7 @@ namespace DrinksProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Count,Price")] Drinks drinks)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Count,Price")] Models.Drinks drinks)
         {
             if (id != drinks.Id)
             {
