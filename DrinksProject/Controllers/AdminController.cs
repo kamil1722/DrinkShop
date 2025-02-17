@@ -1,19 +1,12 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DrinksProject.Data;
-using DrinksProject.Models;
 
 namespace DrinksProject.Controllers
 {
-    public class AdminController : Controller
+    public class AdminController(MyContext context) : Controller
     {
-        private readonly MyContext _context;
-
-        public AdminController(MyContext context)
-        {
-            _context = context;
-        }
+        private readonly MyContext _context = context;
 
         public IActionResult IndexRedirect()
         {

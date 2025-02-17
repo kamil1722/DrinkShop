@@ -1,9 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using DrinksProject.Data;
-using DrinksProject.AuthModule.Services;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Drinks.AuthModule.Services;
+using Drinks.AuthModule.Services.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
 

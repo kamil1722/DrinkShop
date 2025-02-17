@@ -1,22 +1,17 @@
 ﻿using Drinks.AuthModule.Models;
-using DrinksProject.AuthModule.Models;
+using Drinks.AuthModule.Services.Interface;
+using Drinks.AuthModule.ViewModels;
 using Microsoft.AspNetCore.Identity;
-using System.Threading.Tasks;
 
-namespace DrinksProject.AuthModule.Services
+namespace Drinks.AuthModule.Services
 {
-    public class UserService : IUserService
+    public class UserService(UserManager<IdentityUser> userManager) : IUserService
     {
-        private readonly UserManager<IdentityUser> _userManager;
-
-        public UserService(UserManager<IdentityUser> userManager)
-        {
-            _userManager = userManager;
-        }
+        private readonly UserManager<IdentityUser> _userManager = userManager;
 
         public async Task<IdentityResult> CreateUserAsync(RegisterViewModel model)
         {
-            var user = new IdentityUser { UserName = model.Email, Email = model.Email };
+            var user = new IdentityUser { UserName = model.UserName, Email = model.Email };
             return await _userManager.CreateAsync(user, model.Password);
         }
 

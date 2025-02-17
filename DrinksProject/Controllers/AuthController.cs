@@ -1,25 +1,18 @@
-﻿using DrinksProject.AuthModule.Models;
-using DrinksProject.AuthModule.Services;
+﻿using Drinks.AuthModule.Services.Interface;
+using Drinks.AuthModule.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace DrinksProject.Controllers
 {
-    public class AuthController : Controller
+    public class AuthController(IAuthenticationService authenticationService, IUserService userService) : Controller
     {
-        private readonly IAuthenticationService _authenticationService;
-        private readonly IUserService _userService;
-
-        public AuthController(IAuthenticationService authenticationService, IUserService userService)
-        {
-            _authenticationService = authenticationService;
-            _userService = userService;
-        }
+        private readonly IAuthenticationService _authenticationService = authenticationService;
+        private readonly IUserService _userService = userService;
 
         [HttpGet]
         public IActionResult Login()
         {
-            return View(); // Создайте представление Views/Auth/Login.cshtml
+            return View();
         }
 
         [HttpPost]

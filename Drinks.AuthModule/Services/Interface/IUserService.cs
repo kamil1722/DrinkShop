@@ -1,9 +1,8 @@
 ﻿using Drinks.AuthModule.Models;
-using DrinksProject.AuthModule.Models;
+using Drinks.AuthModule.ViewModels;
 using Microsoft.AspNetCore.Identity;
-using System.Threading.Tasks;
 
-namespace DrinksProject.AuthModule.Services
+namespace Drinks.AuthModule.Services.Interface
 {
     public interface IUserService
     {

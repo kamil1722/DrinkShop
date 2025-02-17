@@ -1,5 +1,5 @@
 ﻿using Drinks.AuthModule.Models;
-using DrinksProject.AuthModule.Services;
+using Drinks.AuthModule.Services.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 

@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using DrinksProject.Models;
 
 namespace DrinksProject.Data
 {

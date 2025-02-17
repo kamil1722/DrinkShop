@@ -1,7 +1,6 @@
-﻿var balance = Math.floor(Math.random() * 51) + 100;
-document.getElementById("balance").innerHTML = balance + " руб"
-document.getElementById("restMoney").innerHTML = 0 + " руб"
-
+﻿function getCode(id) {
+    document.getElementById("codeDrink").value = id;
+}
 
 function SetCoin(btnCoin) {
     var selectValueCoin = document.getElementById(btnCoin).value;
@@ -10,107 +9,106 @@ function SetCoin(btnCoin) {
     document.getElementById("valueCoin").value = +selectValueCoin + +currentValueCoin;
 }
 
-function getCode(id) {
-    document.getElementById("codeDrink").value = id;
-}
+$(document).ready(function () {
+    if (document.getElementById("balance")) {
+        var balanceElement = document.getElementById("balance");
 
-function checkPrice(codeDrink, inputValueCoin, callback) {
-    $.ajax({
-        url: '/User/GetPrice',
-        type: 'GET',
-        data: { codeDrink: codeDrink },
-        success: function (data) {
-            var price = +data;
-            var inputPrice = +inputValueCoin.value;
+        var balance = Math.floor(Math.random() * 51) + 100;
+        balanceElement.innerHTML = balance + " руб";
 
-            if (price > inputPrice) {
-                callback(false);
-            }
-            else {
-                callback(true);
-            }
-        },
-        error: function (error) {
-            console.log(error);
-            callback(false);
-        }
-    });
-}
+        function checkPrice(codeDrink, inputValueCoin, callback) {
+            $.ajax({
+                url: '/User/GetPrice',
+                type: 'GET',
+                data: { codeDrink: codeDrink },
+                success: function (data) {
+                    var price = +data;
+                    var inputPrice = +inputValueCoin.value;
 
-$(function () {
-    $('#btnSetPay').click(function (e) {
-        e.preventDefault();
-
-        var codeDrink = $('#codeDrink').val();
-        var currentBalance = $('#balance').text();
-        var currentRestMoney = $('#restMoney').text();
-
-        var inputCodeDrink = document.getElementById("codeDrink");
-        var inputValueCoin = document.getElementById("valueCoin");
-
-        if ((inputCodeDrink && inputCodeDrink.value) == false) {
-            alert('Ошибка при отправке данных: заполните поле "Код напитка"');
-            return;
-        }
-        else if ((inputValueCoin && inputValueCoin.value) == false) {
-            alert('Ошибка при отправке данных: заполните поле "Сумма(руб)"');
-            return;
-        }
-        else if (+inputValueCoin.value > parseInt(currentBalance)) {
-            alert('Ошибка: Недостаточно средств"');
-            return;
+                    if (price > inputPrice) {
+                        callback(false);
+                    } else {
+                        callback(true);
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                    callback(false);
+                }
+            });
         }
 
-        checkPrice(codeDrink, inputValueCoin, function (result) {
-            if (result == false) {
-                alert('Ошибка: Введенной сумму недостаточно для совершения платежа');
+        // Обработчик события для кнопки "Set Pay"
+        $('#btnSetPay').click(function (e) {
+            e.preventDefault();
+
+            var codeDrink = $('#codeDrink').val();
+            var currentBalance = $('#balance').text();
+
+            var inputCodeDrink = document.getElementById("codeDrink");
+            var inputValueCoin = document.getElementById("valueCoin");
+
+            if (!inputCodeDrink || !inputCodeDrink.value) {
+                alert('Ошибка при отправке данных: заполните поле "Код напитка"');
+                return;
+            } else if (!inputValueCoin || !inputValueCoin.value) {
+                alert('Ошибка при отправке данных: заполните поле "Сумма(руб)"');
+                return;
+            } else if (+inputValueCoin.value > parseInt(currentBalance)) {
+                alert('Ошибка: Недостаточно средств"');
                 return;
             }
-            else {
-                $.ajax({
-                    type: 'POST',
-                    url: '/User/UpdateCount',
-                    data: { codeDrink: codeDrink },
-                })
-                    .then(function (result) {
-                        console.log(result);
 
-                        return $.ajax({
-                            url: '/User/GetPrice',
-                            type: 'GET',
-                            data: { codeDrink: codeDrink },
-                        });
+            checkPrice(codeDrink, inputValueCoin, function (result) {
+                if (!result) {
+                    alert('Ошибка: Введенной сумму недостаточно для совершения платежа');
+                    return;
+                } else {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/User/UpdateCount',
+                        data: {
+                            codeDrink: codeDrink
+                        },
                     })
-                    .then(function (data) {
-                        var newBalance = parseInt(currentBalance) - +data;
-                        var restMoney = (+inputValueCoin.value - +data) + parseInt(currentRestMoney);
-                        document.getElementById("balance").innerHTML = newBalance + " руб";
-                        document.getElementById("restMoney").innerHTML = restMoney + " руб";
+                        .then(function (result) {
+                            console.log(result);
 
-                        return $.ajax({
-                            url: '/User/GetCards',
-                            type: 'GET',
+                            return $.ajax({
+                                url: '/User/GetPrice',
+                                type: 'GET',
+                                data: {
+                                    codeDrink: codeDrink
+                                },
+                            });
+                        })
+                        .then(function (data) {
+                            var newBalance = parseInt(currentBalance) - +data;
+                            balanceElement.innerHTML = newBalance + " руб"; // Используем balanceElement
+
+                            return $.ajax({
+                                url: '/User/GetCards',
+                                type: 'GET',
+                            });
+                        })
+                        .then(function (data) {
+                            $('#cardsContainer').html(data);
+                        })
+                        .catch(function (error) {
+                            console.log(error);
                         });
-                    })
-                    .then(function (data) {
-                        // Обновляем содержимое контейнера cardsContainer
-                        $('#cardsContainer').html(data);
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
-            }
+                }
+            });
         });
-    });
+
+        // Обработчик события для кнопки "Get Pay"
+        $('#btnGetPay').click(function (e) {
+            var currentBalance = parseInt($('#balance').text());
+
+            balanceElement.innerHTML = currentBalance + " руб"; // Используем balanceElement
+        });
+
+    } else {
+        console.log("Элемент balance на этой странице.");
+    }
 });
-
-$(function () {
-    $('#btnGetPay').click(function (e) { 
-        var currentRestMoney = parseInt($('#restMoney').text());
-        var currentBalance = parseInt($('#balance').text());
-
-        document.getElementById("balance").innerHTML = currentBalance + currentRestMoney + " руб";
-        document.getElementById("restMoney").innerHTML = 0 + " руб";
-    });
-});
-

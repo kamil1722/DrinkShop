@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DrinksProject.AuthModule.Models
+namespace Drinks.AuthModule.ViewModels
 {
     public class LoginViewModel
     {
@@ -15,6 +15,6 @@ namespace DrinksProject.AuthModule.Models
         public string Password { get; set; } = string.Empty;
 
         [Display(Name = "Запомнить меня?")]
-        public bool RememberMe { get; set; } = false; // Default to false; prevents accidental login persistence
+        public bool RememberMe { get; set; } = false;
     }
 }

@@ -1,7 +1,6 @@
 ﻿using Drinks.AuthModule.Models;
-using System.Threading.Tasks;
 
-namespace DrinksProject.AuthModule.Services
+namespace Drinks.AuthModule.Services.Interface
 {
     public interface IAuthenticationService
     {
