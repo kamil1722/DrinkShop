@@ -18,7 +18,15 @@ namespace Drinks.AuthModule.Services
                 return false;
             }
             //  Используем SignInManager для входа в систему с ASP.NET Identity:
-            var result = await _signInManager.PasswordSignInAsync(email, password, rememberMe, lockoutOnFailure: false);
+            var user = await _userService.GetUserByEmailAsync(email);
+
+            if (user == null)
+            {
+                return false;
+            }
+
+            var result = await _signInManager.PasswordSignInAsync(user.Username, password, rememberMe, lockoutOnFailure: false);
+
             return result.Succeeded;
         }
 
@@ -35,7 +43,7 @@ namespace Drinks.AuthModule.Services
                 return await _userService.GetUserByEmailAsync(user.Email ?? string.Empty); // Конвертируем в UserProfile
             }
 
-             throw new Exception("User not found");
+            throw new Exception("User not found");
         }
 
         public bool IsAuthenticated()

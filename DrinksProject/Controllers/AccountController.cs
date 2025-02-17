@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 
 namespace DrinksProject.Controllers
 {
@@ -54,14 +55,22 @@ namespace DrinksProject.Controllers
 
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+                var user = await _userManager.FindByEmailAsync(model.Email);
 
-                if (result.Succeeded)
+                if (user != null)
                 {
-                    return LocalRedirect(returnUrl); // Безопасное перенаправление
+                    var result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, model.RememberMe, lockoutOnFailure: false);
+
+                    if (result.Succeeded)
+                    {
+                        return LocalRedirect(returnUrl); // Безопасное перенаправление
+                    }
+
+                    ModelState.AddModelError("", "Неправильный логин или пароль.");
+
                 }
 
-                ModelState.AddModelError("", "Неправильный логин или пароль.");
+                ModelState.AddModelError("", "Пользователь с таким email не существует.");
             }
 
             return View(model);
