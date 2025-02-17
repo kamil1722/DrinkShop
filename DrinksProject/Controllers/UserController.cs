@@ -1,18 +1,12 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DrinksProject.Data;
 
 namespace DrinksProject.Controllers
 {
-    public class UserController : Controller
+    public class UserController(MyContext context) : Controller
     {
-        private readonly MyContext _context;
-
-        public UserController(MyContext context)
-        {
-            _context = context;
-        }
+        private readonly MyContext _context = context;
 
         public async Task<IActionResult> Index()
         {
