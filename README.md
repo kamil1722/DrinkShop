@@ -12,5 +12,5 @@
 ###### 2. Микросервисная архитектура (на данный момент реализована аутиндетификация AuthModule отдельным кастомным микросервисом, в будущем планируется добавить еще модули)
 
 ##### Для тех кто хочет глянуть интерфейс 
-###### https://drive.google.com/drive/my-drive?dmr=1&ec=wgc-drive-globalnav-goto
+###### https://drive.google.com/file/d/1rr3x86gMN1uo8mLJLALRwnaD_eVpXTgG/view?usp=drive_link
 
