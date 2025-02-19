@@ -5,9 +5,14 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Drinks.AuthModule.Services
 {
-    public class UserService(UserManager<IdentityUser> userManager) : IUserService
+    public class UserService : IUserService
     {
-        private readonly UserManager<IdentityUser> _userManager = userManager;
+        private readonly UserManager<IdentityUser> _userManager;
+
+        public UserService(UserManager<IdentityUser> userManager)
+        {
+            _userManager = userManager;
+        }
 
         public async Task<IdentityResult> CreateUserAsync(RegisterViewModel model)
         {

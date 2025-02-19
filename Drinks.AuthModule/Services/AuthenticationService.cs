@@ -5,12 +5,18 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Drinks.AuthModule.Services
 {
-    public class AuthenticationService(IUserService userService, IHttpContextAccessor httpContextAccessor, SignInManager<IdentityUser> signInManager) : IAuthenticationService
+    public class AuthenticationService : IAuthenticationService
     {
-        private readonly IUserService _userService = userService;
-        private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
-        private readonly SignInManager<IdentityUser> _signInManager = signInManager; // ASP.NET Identity
+        private readonly IUserService _userService;   
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly SignInManager<IdentityUser> _signInManager; // ASP.NET Identity
 
+        public AuthenticationService(IUserService userService, IHttpContextAccessor httpContextAccessor, SignInManager<IdentityUser> signInManager)
+        {
+            _userService = userService;
+            _httpContextAccessor = httpContextAccessor;
+            _signInManager = signInManager;
+        }
         public async Task<bool> LoginAsync(string email, string password, bool rememberMe)
         {
             if (string.IsNullOrEmpty(email))
