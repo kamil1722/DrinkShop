@@ -1,15 +1,21 @@
-﻿using DrinksProject.ViewModels;
+﻿using Drinks.AuthModule.Services.Interface;
+using DrinksProject.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 
 namespace DrinksProject.Controllers
 {
-    public class AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager) : Controller
+    public class AccountController : Controller
     {
-        private readonly UserManager<IdentityUser> _userManager = userManager;
-        private readonly SignInManager<IdentityUser> _signInManager = signInManager;
+        private readonly IUserService _userService;
+        private readonly IAuthenticationService _authenticationService;
+
+        public AccountController(IUserService userService, IAuthenticationService authenticationService)
+        {
+            _userService = userService;
+            _authenticationService = authenticationService;
+        }
 
         [HttpGet]
         public IActionResult Register()
@@ -23,18 +29,26 @@ namespace DrinksProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser { UserName = model.UserName, Email = model.Email };
-                var result = await _userManager.CreateAsync(user, model.Password);
+                var result = await _userService.CreateUserAsync(model);
 
                 if (result.Succeeded)
                 {
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("Index", "User"); // Перенаправление на главную страницу
+                    // После успешной регистрации, выполняем вход пользователя через AuthenticationService
+                    if (await _authenticationService.LoginAsync(model.Email, model.Password, false))
+                    {
+                        return RedirectToAction("Index", "User"); // Перенаправление на главную страницу
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Не удалось выполнить вход после регистрации.");
+                    }
                 }
-
-                foreach (var error in result.Errors)
+                else
                 {
-                    ModelState.AddModelError("", error.Description);
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
                 }
             }
 
@@ -51,26 +65,16 @@ namespace DrinksProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
         {
-            returnUrl ??= Url.Content("~/");  // Если returnUrl не указан, перенаправляем на главную
+            returnUrl ??= Url.Content("~/");
 
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByEmailAsync(model.Email);
-
-                if (user != null)
+                if (await _authenticationService.LoginAsync(model.Email, model.Password, model.RememberMe))
                 {
-                    var result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, model.RememberMe, lockoutOnFailure: false);
-
-                    if (result.Succeeded)
-                    {
-                        return LocalRedirect(returnUrl); // Безопасное перенаправление
-                    }
-
-                    ModelState.AddModelError("", "Неправильный логин или пароль.");
-
+                    return LocalRedirect(returnUrl);
                 }
 
-                ModelState.AddModelError("", "Пользователь с таким email не существует.");
+                ModelState.AddModelError("", "Неправильный логин или пароль.");
             }
 
             return View(model);
@@ -80,7 +84,7 @@ namespace DrinksProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
-            await _signInManager.SignOutAsync();
+            await _authenticationService.LogoutAsync();
             return RedirectToAction("Index", "User");
         }
 

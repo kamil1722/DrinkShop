@@ -33,8 +33,7 @@ namespace Drinks.AuthModule.Services
                 };
             }
 
-            throw new Exception("User not found");
-            
+            return null;
         }
     }
 }
