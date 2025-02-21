@@ -26,7 +26,10 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>(); // Scoped подходит для веб-приложений
 builder.Services.AddScoped<IUserService, UserService>();
 
-builder.Services.AddHttpContextAccessor(); // Для доступа к HttpContext
+builder.Services.AddHttpContextAccessor();// Для доступа к HttpContext
+
+//реализация RabbitMQ
+builder.Services.AddSingleton<IRabbitMQService, RabbitMQService>();
 
 var app = builder.Build();
 

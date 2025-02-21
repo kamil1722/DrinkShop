@@ -1,8 +1,10 @@
 ﻿using Drinks.AuthModule.Services.Interface;
+using DrinksProject.Models;
 using DrinksProject.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace DrinksProject.Controllers
 {
@@ -10,11 +12,16 @@ namespace DrinksProject.Controllers
     {
         private readonly IUserService _userService;
         private readonly IAuthenticationService _authenticationService;
+        private readonly IRabbitMQService _rabbitMQService;
+        private readonly IConfiguration _configuration;
 
-        public AccountController(IUserService userService, IAuthenticationService authenticationService)
+        public AccountController(IUserService userService, IAuthenticationService authenticationService,
+            IRabbitMQService rabbitMQService, IConfiguration configuration)
         {
             _userService = userService;
             _authenticationService = authenticationService;
+            _rabbitMQService = rabbitMQService;
+            _configuration = configuration;
         }
 
         [HttpGet]
@@ -30,12 +37,21 @@ namespace DrinksProject.Controllers
             if (ModelState.IsValid)
             {
                 var result = await _userService.CreateUserAsync(model);
+                var user = await _userService.FindByEmailAsync(model.Email);
 
                 if (result.Succeeded)
                 {
+                    var confirmationToken = await _userService.GenerateEmailConfirmationTokenAsync(user);
+                    var confirmationLink = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, token = confirmationToken }, Request.Scheme);
+
+                    var messageJson = _rabbitMQService.GetEmailMessageJson(confirmationLink, model.Email);
+
                     // После успешной регистрации, выполняем вход пользователя через AuthenticationService
                     if (await _authenticationService.LoginAsync(model.Email, model.Password, false))
                     {
+                        // Send the message to RabbitMQ
+                        _rabbitMQService.SendMessage(_configuration["RabbitMQ:QueueName"], messageJson);
+
                         return RedirectToAction("Index", "User"); // Перенаправление на главную страницу
                     }
                     else

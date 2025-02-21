@@ -35,5 +35,15 @@ namespace Drinks.AuthModule.Services
 
             return null;
         }
+
+        public async Task<IdentityUser> FindByEmailAsync(string email)
+        {
+            return await _userManager.FindByEmailAsync(email);
+        }
+
+        public async Task<string> GenerateEmailConfirmationTokenAsync(IdentityUser user)
+        {
+            return await _userManager.GenerateEmailConfirmationTokenAsync(user);
+        }
     }
 }

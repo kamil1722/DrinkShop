@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrinksProject", "DrinksProj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Drinks.AuthModule", "Drinks.AuthModule\Drinks.AuthModule.csproj", "{1DD7F429-77FF-47EA-9D6B-8E8E6CB59EFB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailWorkerService", "EmailWorkerService\EmailWorkerService.csproj", "{CDBF049F-EDEC-407E-80EE-230E43A2A66D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{1DD7F429-77FF-47EA-9D6B-8E8E6CB59EFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1DD7F429-77FF-47EA-9D6B-8E8E6CB59EFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1DD7F429-77FF-47EA-9D6B-8E8E6CB59EFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDBF049F-EDEC-407E-80EE-230E43A2A66D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDBF049F-EDEC-407E-80EE-230E43A2A66D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDBF049F-EDEC-407E-80EE-230E43A2A66D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDBF049F-EDEC-407E-80EE-230E43A2A66D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
