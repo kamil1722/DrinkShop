@@ -92,11 +92,8 @@ namespace EmailWorkerService
 
         public override void Dispose()
         {
-            if (_channel != null)
-                _channel.Dispose();
-
-            if (_connection != null)
-                _connection.Dispose();
+            _channel.Dispose();
+            _connection.Dispose();
 
             base.Dispose();
         }
