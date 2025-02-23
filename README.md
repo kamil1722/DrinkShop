@@ -5,8 +5,8 @@
 * [Ajax](https://api.jquery.com/jQuery.ajax/)
 * Микросервисы
 * [RabbitMQ](https://www.rabbitmq.com/)
-* Unit тестирование
-* [Docker](https://www.docker.com/)
+* Unit тестирование(В разработке)
+* [Docker](https://www.docker.com/)(В разработке)
 * [API](https://metanit.com/sharp/aspnet5/23.1.php)
   
 ## Описание проекта:
