@@ -1,4 +1,11 @@
-##### Стек : ASP.NET CORE MVC, EntityFramework, Ajax, Микросервисы
+##### Стек :
+###### [a link]1.ASP.NET CORE MVC
+###### [a link]2.EntityFramework
+###### [a link]3.Ajax
+###### [a link]4.Микросервисы
+###### [a link]5.RabbitMQ
+###### [a link]6.Unit тестирование
+###### [a link]7.Docker
 
 ##### Инструкция по работе для программистов:
 ###### 1. В строке подключения к бд(файл: appsettings.json) меняем Server и Database на собственные значения
