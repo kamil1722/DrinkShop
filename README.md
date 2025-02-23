@@ -3,9 +3,9 @@
 * ASP.NET CORE MVC
 * [EntityFramework](https://docs.microsoft.com/ru-ru/ef/core/)
 * [Ajax](https://api.jquery.com/jQuery.ajax/)
-* [Микросервисы]
+* Микросервисы
 * [RabbitMQ](https://www.rabbitmq.com/)
-* [Unit тестирование]
+* Unit тестирование
 * [Docker](https://www.docker.com/)
 * [API](https://metanit.com/sharp/aspnet5/23.1.php)
   
