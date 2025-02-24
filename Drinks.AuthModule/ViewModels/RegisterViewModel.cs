@@ -26,10 +26,5 @@ namespace Drinks.AuthModule.ViewModels
         [Compare("Password", ErrorMessage = "Пароль и подтверждение не совпадают.")]
         [Required(ErrorMessage = "Подтверждение пароля обязательно для заполнения")]
         public string ConfirmPassword { get; set; } = string.Empty; // Initialize to empty string
-
-        //[Display(Name = "Я согласен с условиями использования")]
-        //[Required(ErrorMessage = "Необходимо согласиться с условиями использования")]
-        //[Range(typeof(bool), "true", "true", ErrorMessage = "Необходимо согласиться с условиями использования")] // Для валидации на стороне сервера
-        //public bool TermsAccepted { get; set; }
     }
 }

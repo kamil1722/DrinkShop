@@ -2,9 +2,8 @@
 using DrinksProject.Models;
 using DrinksProject.ViewModels;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 
 namespace DrinksProject.Controllers
 {
@@ -37,20 +36,12 @@ namespace DrinksProject.Controllers
             if (ModelState.IsValid)
             {
                 var result = await _userService.CreateUserAsync(model);
-                var user = await _userService.FindByEmailAsync(model.Email);
 
                 if (result.Succeeded)
                 {
-                    var confirmationToken = await _userService.GenerateEmailConfirmationTokenAsync(user);
-                    var confirmationLink = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, token = confirmationToken }, Request.Scheme);
-
-                    var messageJson = _rabbitMQService.GetEmailMessageJson(confirmationLink, model.Email);
-
                     // После успешной регистрации, выполняем вход пользователя через AuthenticationService
                     if (await _authenticationService.LoginAsync(model.Email, model.Password, false))
                     {
-                        // Send the message to RabbitMQ
-                        _rabbitMQService.SendMessage(_configuration["RabbitMQ:QueueName"], messageJson);
 
                         return RedirectToAction("Index", "User"); // Перенаправление на главную страницу
                     }
@@ -70,6 +61,61 @@ namespace DrinksProject.Controllers
 
             return View(model);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> SendCodeToEmail(string email)
+        {
+            try
+            {
+
+                if (string.IsNullOrWhiteSpace(email))
+                {
+                    return Json(new { success = false, message = "Неверный формат email.  Email не может быть пустым." });
+                }
+
+                if (!new EmailAddressAttribute().IsValid(email))
+                {
+                    return Json(new { success = false, message = "Неверный формат email." });
+                }
+
+                var user = await _userService.FindByEmailAsync(email);
+
+                string confirmationCode = _userService.GenerateConfirmationCode();
+
+                await _userService.StoreConfirmationCodeAsync(user.Id, confirmationCode);
+
+                var messageJson = _rabbitMQService.GetEmailMessageJson(confirmationCode, email);
+
+                _rabbitMQService.SendMessage(_configuration["RabbitMQ:QueueName"], messageJson);
+
+                return Json(new { success = true, message = "Код подтверждения успешно отправлен." });
+            }
+            catch
+            {
+                return Json(new { success = false, message = "Произошла ошибка на сервере." });
+            }
+        }
+
+        [HttpPost]
+        public async Task<bool> ConfirmEmail(ConfirmEmailViewModel model)
+        {
+
+            ///ConfirmEmail
+            bool isCodeValid = await _userService.ConfirmEmailAsync(model.UserId, model.Code);
+
+            if (isCodeValid)
+            {
+                ViewBag.ConfirmationSuccess = true;
+            }
+            else
+            {
+                ViewBag.ConfirmationSuccess = false;
+                ModelState.AddModelError(string.Empty, "Неверный код подтверждения.");
+            }
+
+            return ViewBag.ConfirmationSuccess;
+        }
+
 
         [HttpGet]
         public IActionResult Login()
@@ -108,8 +154,15 @@ namespace DrinksProject.Controllers
         [Authorize] // Требуется аутентификация
         public IActionResult Manage()
         {
-            // Здесь можно добавить логику для отображения страницы управления пользователем
-            return View();
+            var currentUser = _authenticationService.GetCurrentUserAsync().Result;
+
+            var model = new UserViewModel
+            {
+                Username = currentUser.Username,
+                Email = currentUser.Email
+            };
+
+            return View(model);
         }
     }
 }

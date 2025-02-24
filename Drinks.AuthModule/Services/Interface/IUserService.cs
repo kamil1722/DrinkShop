@@ -9,6 +9,8 @@ namespace Drinks.AuthModule.Services.Interface
         Task<IdentityResult> CreateUserAsync(RegisterViewModel model);
         Task<UserProfile> GetUserByEmailAsync(string email);
         Task<IdentityUser> FindByEmailAsync(string email);
-        Task<string> GenerateEmailConfirmationTokenAsync(IdentityUser user);
+        string GenerateConfirmationCode();
+        Task<bool> StoreConfirmationCodeAsync(string userId, string code);
+        Task<bool> ConfirmEmailAsync(string userId, string code);
     }
 }

@@ -101,13 +101,6 @@ $(document).ready(function () {
             });
         });
 
-        // Обработчик события для кнопки "Get Pay"
-        $('#btnGetPay').click(function (e) {
-            var currentBalance = parseInt($('#balance').text());
-
-            balanceElement.innerHTML = currentBalance + " руб"; // Используем balanceElement
-        });
-
     } else {
         console.log("Элемент balance на этой странице.");
     }

@@ -1,0 +1,28 @@
+﻿@*Views/Account/ConfirmEmail.cshtml*@
+@model DrinksProject.Models.ConfirmEmailViewModel
+
+@{
+    ViewData["Title"] = "Confirm Email";
+}
+
+<h1>Confirm Email</h1>
+
+<p>Please enter the confirmation code sent to your email:</p>
+
+<form asp-action="ConfirmEmail" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <label asp-for="UserId">User ID:</label>
+        <input asp-for="UserId" class="form-control" readonly /> <!--  Readonly для защиты -->
+        <span asp-validation-for="UserId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Code">Confirmation Code:</label>
+        <input asp-for="Code" class="form-control" required />
+        <span asp-validation-for="Code" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Confirm</button>
+</form>

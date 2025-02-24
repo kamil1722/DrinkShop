@@ -49,7 +49,7 @@ namespace Drinks.AuthModule.Services
                 return await _userService.GetUserByEmailAsync(user.Email ?? string.Empty); // Конвертируем в UserProfile
             }
 
-            throw new Exception("User not found");
+           return null;
         }
 
         public bool IsAuthenticated()

@@ -37,15 +37,16 @@ public class RabbitMQService : IRabbitMQService
         channel.BasicPublish(exchange: "", routingKey: queueName, basicProperties: null, body: body);
     }
 
-    public string GetEmailMessageJson(string confirmationLink, string email)
+    public string GetEmailMessageJson(string confirmationCode, string email)
     {
-        var emailBody = $"Please confirm your email by clicking this link: <a href=\"{confirmationLink}\">Confirm Email</a>";
+        var emailBody = $"Ваш код подтверждения: {confirmationCode}";
 
         var message = new EmailConfirmationMessage
         {
             ToEmail = email,
-            Subject = "Confirm your email",
-            Body = emailBody
+            Subject = "Подтвердите свой email",
+            Body = emailBody,
+            Code = confirmationCode // Include the code in the message
         };
 
         return JsonConvert.SerializeObject(message);
