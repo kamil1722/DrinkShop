@@ -17,7 +17,6 @@ namespace Drinks.AuthModule.Services
             _httpContextAccessor = httpContextAccessor;
             _signInManager = signInManager;
         }
-
         public async Task<bool> LoginAsync(string email, string password, bool rememberMe)
         {
             if (string.IsNullOrEmpty(email))
@@ -50,7 +49,7 @@ namespace Drinks.AuthModule.Services
                 return await _userService.GetUserByEmailAsync(user.Email ?? string.Empty); // Конвертируем в UserProfile
             }
 
-            throw new Exception("User not found");
+           return null;
         }
 
         public bool IsAuthenticated()

@@ -4,9 +4,14 @@ using DrinksProject.Data;
 
 namespace DrinksProject.Controllers
 {
-    public class UserController(MyContext context) : Controller
+    public class UserController : Controller
     {
-        private readonly MyContext _context = context;
+        private readonly MyContext _context;
+
+        public UserController(MyContext context)
+        {
+            _context = context;
+        }
 
         public async Task<IActionResult> Index()
         {

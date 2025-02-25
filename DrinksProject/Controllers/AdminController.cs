@@ -4,9 +4,14 @@ using DrinksProject.Data;
 
 namespace DrinksProject.Controllers
 {
-    public class AdminController(MyContext context) : Controller
+    public class AdminController : Controller
     {
-        private readonly MyContext _context = context;
+        private readonly MyContext _context;
+
+        public AdminController(MyContext context)
+        {
+            _context = context;
+        }
 
         public IActionResult IndexRedirect()
         {
