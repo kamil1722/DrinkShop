@@ -1,18 +1,6 @@
-﻿function getCode(id) {
-    document.getElementById("codeDrink").value = id;
-}
-
-function SetCoin(btnCoin) {
-    var selectValueCoin = document.getElementById(btnCoin).value;
-    var currentValueCoin = document.getElementById("valueCoin").value;
-
-    document.getElementById("valueCoin").value = +selectValueCoin + +currentValueCoin;
-}
-
-$(document).ready(function () {
+﻿$(() => {
     if (document.getElementById("balance")) {
         var balanceElement = document.getElementById("balance");
-
         var balance = Math.floor(Math.random() * 51) + 100;
         balanceElement.innerHTML = balance + " руб";
 
@@ -38,30 +26,27 @@ $(document).ready(function () {
             });
         }
 
-        // Обработчик события для кнопки "Set Pay"
-        $('#btnSetPay').click(function (e) {
+        $('#btnSetPay').on("click", function (e) {
             e.preventDefault();
 
             var codeDrink = $('#codeDrink').val();
             var currentBalance = $('#balance').text();
-
-            var inputCodeDrink = document.getElementById("codeDrink");
             var inputValueCoin = document.getElementById("valueCoin");
 
-            if (!inputCodeDrink || !inputCodeDrink.value) {
+            if (!codeDrink) {
                 alert('Ошибка при отправке данных: заполните поле "Код напитка"');
                 return;
             } else if (!inputValueCoin || !inputValueCoin.value) {
                 alert('Ошибка при отправке данных: заполните поле "Сумма(руб)"');
                 return;
             } else if (+inputValueCoin.value > parseInt(currentBalance)) {
-                alert('Ошибка: Недостаточно средств"');
+                alert('Ошибка: Недостаточно средств');
                 return;
             }
 
             checkPrice(codeDrink, inputValueCoin, function (result) {
                 if (!result) {
-                    alert('Ошибка: Введенной сумму недостаточно для совершения платежа');
+                    alert('Ошибка: Введенной суммы недостаточно для совершения платежа');
                     return;
                 } else {
                     $.ajax({
@@ -84,7 +69,7 @@ $(document).ready(function () {
                         })
                         .then(function (data) {
                             var newBalance = parseInt(currentBalance) - +data;
-                            balanceElement.innerHTML = newBalance + " руб"; // Используем balanceElement
+                            balanceElement.innerHTML = newBalance + " руб";
 
                             return $.ajax({
                                 url: '/User/GetCards',
@@ -105,3 +90,14 @@ $(document).ready(function () {
         console.log("Элемент balance на этой странице.");
     }
 });
+
+function getCode(id) {
+    document.getElementById("codeDrink").value = id;
+}
+
+function SetCoin(btnCoin) {
+    var selectValueCoin = document.getElementById(btnCoin).value;
+    var currentValueCoin = document.getElementById("valueCoin").value;
+
+    document.getElementById("valueCoin").value = +selectValueCoin + +currentValueCoin;
+}

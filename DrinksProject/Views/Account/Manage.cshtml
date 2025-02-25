@@ -4,6 +4,15 @@
 	ViewData["Title"] = "Обо мне";
 }
 
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="styles.css"> <!-- Подключение CSS файла -->
+	<link rel="stylesheet" href="~/css/manage.css" asp-append-version="true" />
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="~/js/siteManage.js" asp-append-version="true"></script>
+</head>
+
 @Html.AntiForgeryToken()
 
 <div class="user-management-container">
@@ -25,14 +34,24 @@
 			<div class="profile-details">
 				<div class="profile-label">Email:</div>
 				<div class="profile-value" id="profileValueEmail">@Model.Email</div>
-				@if (@Model.IsEmailConfirmed)
+				@if (@Model.EmailConfirmed)
 				{
-					<span>Подтверждён</span>
+					<span style="color: Green	">Подтверждён</span>
 				}
 				else
 				{
-					<a href="#" id="confirmEmailLink">Не подтвержден</a>
+					<a href="#" id="confirmEmailLink" style="color: red">Не подтвержден</a>
 				}
+			</div>
+		</div>
+
+		<div class="profile-separator"></div>
+
+		<div class="profile-row">
+			<i class="profile-icon fas fa-phone"></i>
+			<div class="profile-details">
+				<div class="profile-label">Телефон:</div>
+				<div class="profile-value">89320925147</div>
 			</div>
 		</div>
 

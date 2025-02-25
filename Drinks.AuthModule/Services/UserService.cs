@@ -34,7 +34,8 @@ namespace Drinks.AuthModule.Services
                 {
                     Id = user.Id, // Преобразование в UserProfile (адаптируйте под свои поля)
                     Email = user.Email ?? string.Empty,
-                    Username = user.UserName ?? string.Empty
+                    Username = user.UserName ?? string.Empty,
+                    EmailConfirmed = user.EmailConfirmed
                 };
             }
 
@@ -69,13 +70,20 @@ namespace Drinks.AuthModule.Services
             }
         }
 
-        public async Task<bool> ConfirmEmailAsync(string userId, string code)
+        public async Task<(bool Result, string Message)> ConfirmEmailAsync(string userId, string code)
         {
             try
             {
+                var message = string.Empty;
                 string cachedCode = await Task.Run(() => _memoryCache.Get<string>(ConfirmationCodeCacheKey + userId) ?? string.Empty);
 
-                if (!string.IsNullOrEmpty(cachedCode) && cachedCode == code)
+                if (string.IsNullOrEmpty(cachedCode))
+                {
+                    message = "Код подтверждения недействителен. Пожалуйста, запросите новый код.";
+                    return (false, message);
+                }
+
+                if (cachedCode == code)
                 {
                     // Удалить код из кэша, чтобы предотвратить повторное использование
                     await Task.Run(() => _memoryCache.Remove(ConfirmationCodeCacheKey + userId));
@@ -89,20 +97,22 @@ namespace Drinks.AuthModule.Services
                         var result = await _userManager.UpdateAsync(user);
                         if (!result.Succeeded)
                         {
-                            return false; 
+                            message = "Не удалось обновить статус подтверждения. Пожалуйства повторите позже";
+                            return (false, message);
                         }
                     }
 
-                    return true; 
+                    return (true, message);
                 }
                 else
                 {
-                    return false;
+                    message = "Неверный код подтверждения.";
+                    return (false, message);
                 }
             }
             catch (Exception)
             {
-                return false;
+                return (false, "Произошла ошибка при отправке кода для подтверждения.Пожалуйста, повторите позже");
             }
         }
     }

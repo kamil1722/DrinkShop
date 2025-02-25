@@ -11,6 +11,6 @@ namespace Drinks.AuthModule.Services.Interface
         Task<IdentityUser> FindByEmailAsync(string email);
         string GenerateConfirmationCode();
         Task<bool> StoreConfirmationCodeAsync(string userId, string code);
-        Task<bool> ConfirmEmailAsync(string userId, string code);
+        Task<(bool Result, string Message)> ConfirmEmailAsync(string userId, string code);
     }
 }

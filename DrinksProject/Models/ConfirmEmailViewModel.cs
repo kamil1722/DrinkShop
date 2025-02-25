@@ -5,10 +5,8 @@ namespace DrinksProject.Models
 {
     public class ConfirmEmailViewModel
     {
-        [Required]
-        public string UserId { get; set; }
-
-        [Required]
+        [Required(ErrorMessage = "Код подтверждения обязателен.")]
+        [Display(Name = "Код подтверждения")]
         public string Code { get; set; }
     }
 }

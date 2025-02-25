@@ -1,103 +1,116 @@
 ﻿.user-management-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 50vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 50vh;
 }
 
 .profile-card {
-    background-color: #f8f9fa;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 400px;
+	background-color: #f8f9fa;
+	border-radius: 10px;
+	padding: 20px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	width: 400px;
 }
 
 .profile-heading {
-    color: #495057;
-    text-align: center;
-    margin-bottom: 20px;
+	color: #495057;
+	text-align: center;
+	margin-bottom: 20px;
 }
 
 .profile-row {
-    display: flex;
-    margin-bottom: 15px;
+	display: flex;
+	margin-bottom: 15px;
 }
 
 .profile-icon {
-    color: #007bff;
-    width: 20px;
-    text-align: center;
-    margin-right: 10px; /* Отступ между иконкой и label */
-    margin-top: 12px; /*  Регулировка вертикального положения иконки */
+	color: #007bff;
+	width: 20px;
+	text-align: center;
+	margin-right: 10px; /* Отступ между иконкой и label */
+	margin-top: 12px; /*  Регулировка вертикального положения иконки */
 }
 
 .profile-label {
-    font-weight: bold;
-    color: #343a40;
-    display: block; /* label занимает всю строку */
+	font-weight: bold;
+	color: #343a40;
+	display: block; /* label занимает всю строку */
 }
 
 .profile-value {
-    color: #6c757d;
-    word-wrap: break-word;
+	color: #6c757d;
+	word-wrap: break-word;
 }
 
 .profile-separator {
-    border-top: 1px solid #dee2e6;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    width: 100%;
+	border-top: 1px solid #dee2e6;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	width: 100%;
 }
 
 .profile-details {
-    margin-left: 5px; /*Сдвигаем блок profile-details вправо, создавая отступ для иконок*/
+	margin-left: 5px; /*Сдвигаем блок profile-details вправо, создавая отступ для иконок*/
 }
 
 /* Стили для диалогового окна */
 .confirmation-dialog {
-    display: none; /* Скрываем по умолчанию */
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    border: 1px solid #ccc;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    z-index: 1000; /* Делаем его поверх других элементов */
+	display: none; /* Скрываем по умолчанию */
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: white;
+	border: 1px solid #ccc;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+	padding: 20px;
+	z-index: 1000; /* Делаем его поверх других элементов */
 }
 
 .confirmation-buttons {
-    display: flex;
-    justify-content: space-between;
+	display: flex;
+	justify-content: space-between;
 }
 
 .confirmation-content {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    text-align: center;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: #fff;
+	padding: 20px;
+	border-radius: 5px;
+	text-align: center;
 }
 
 .confirmation-buttons button {
-    margin: 0 10px;
-    padding: 8px 16px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+	margin: 0 10px;
+	padding: 8px 16px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
 }
 
-    .confirmation-buttons button.cancel {
-        background-color: #dc3545;
-        color: white;
-    }
+	.confirmation-buttons button.cancel {
+		background-color: whitesmoke;
+		color: black;
+	}
+		.confirmation-buttons button.cancel:hover {
+			box-shadow: none;
+			opacity: 80%;
+			background-color:  darkgray;
+		}
 
-    .confirmation-buttons button.confirm {
-        background-color: #28a745;
-        color: white;
-    }
+	.confirmation-buttons button.confirm {
+		background-color: whitesmoke;
+		color: black;
+	}
+		.confirmation-buttons button.confirm:hover {
+			box-shadow: none;
+			opacity: 80%;
+			background-color: rgb(0, 123, 255);
+			
+		}
+
+		

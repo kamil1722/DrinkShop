@@ -67,7 +67,6 @@ namespace DrinksProject.Controllers
         {
             try
             {
-
                 if (string.IsNullOrWhiteSpace(email))
                 {
                     return Json(new { success = false, message = "Неверный формат email.  Email не может быть пустым." });
@@ -82,9 +81,9 @@ namespace DrinksProject.Controllers
 
                 string confirmationCode = _userService.GenerateConfirmationCode();
 
-                await _userService.StoreConfirmationCodeAsync(user.Id, confirmationCode);
-
                 var messageJson = _rabbitMQService.GetEmailMessageJson(confirmationCode, email);
+
+                await _userService.StoreConfirmationCodeAsync(user.Id, confirmationCode);
 
                 _rabbitMQService.SendMessage(_configuration["RabbitMQ:QueueName"], messageJson);
 
@@ -96,24 +95,41 @@ namespace DrinksProject.Controllers
             }
         }
 
-        [HttpPost]
-        public async Task<bool> ConfirmEmail(ConfirmEmailViewModel model)
+        [HttpGet]
+        [Authorize] // Требуется аутентификация
+        public IActionResult ConfirmEmail()
         {
+            return View();
+        }
 
-            ///ConfirmEmail
-            bool isCodeValid = await _userService.ConfirmEmailAsync(model.UserId, model.Code);
-
-            if (isCodeValid)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ConfirmEmail(ConfirmEmailViewModel model)
+        {
+            if (ModelState.IsValid)
             {
-                ViewBag.ConfirmationSuccess = true;
-            }
-            else
-            {
-                ViewBag.ConfirmationSuccess = false;
-                ModelState.AddModelError(string.Empty, "Неверный код подтверждения.");
+                var currentUser = await _authenticationService.GetCurrentUserAsync();
+
+                if (currentUser == null)
+                {
+                    return RedirectToAction("Logout", "Account"); 
+                }
+
+                var codeValid = await _userService.ConfirmEmailAsync(currentUser.Id, model.Code);
+
+                if (codeValid.Result)
+                {
+                    ViewBag.ConfirmationSuccess = true;
+                    return View(); 
+                }
+                else
+                {
+                    ViewBag.ConfirmationSuccess = false;
+                    ModelState.AddModelError(string.Empty, codeValid.Message);
+                }
             }
 
-            return ViewBag.ConfirmationSuccess;
+            return View(model);
         }
 
 
@@ -159,7 +175,8 @@ namespace DrinksProject.Controllers
             var model = new UserViewModel
             {
                 Username = currentUser.Username,
-                Email = currentUser.Email
+                Email = currentUser.Email,
+                EmailConfirmed = currentUser.EmailConfirmed
             };
 
             return View(model);
