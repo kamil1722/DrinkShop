@@ -21,5 +21,5 @@
 ![Новый рисунок (1)](https://github.com/user-attachments/assets/2d228cfe-d320-4392-9733-d6810afc2d14)
 
 ### Интерфейс:
-1. Ajax, администрирование, авторизация : https://drive.google.com/file/d/1U2hxZcspzEgWeA4wNyXp4dzwdexvRGsD/view?usp=sharing
+1. Ajax, администрирование, авторизация: https://drive.google.com/file/d/1U2hxZcspzEgWeA4wNyXp4dzwdexvRGsD/view?usp=sharing
 2. RabbitMQ: https://drive.google.com/file/d/1GL6bvAakGewXZhgMM1Zvs54AfZK33goy/view?usp=drive_link
