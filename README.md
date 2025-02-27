@@ -1,4 +1,3 @@
-
 ## Стек:
 * ASP.NET CORE MVC
 * [EntityFramework](https://docs.microsoft.com/ru-ru/ef/core/)
@@ -8,7 +7,7 @@
 * Unit тестирование(В разработке)
 * [Docker](https://www.docker.com/)(В разработке)
 * [API](https://metanit.com/sharp/aspnet5/23.1.php)
-  
+
 ## Описание проекта:
 ##### Проект представляет с собой web страницу ASP.NET MVC с пользовательским и административным интерфейсом магазина с напитками. Пользователь получает текущий ассортимент напитков и проводит с ним разные операции. Администратору доступны удаление, добавление, изменение напитков. В обоих интерфейсах реализована система пользовательского интерфейса с помощью JS(DrinkShop/wwwroot/js), которая помимо навигации и предупреждений для пользователя, предоставляет возможность совершать действия без перезагрузки страницы.Так же реализована аутиндетификация с помощью Indentify
 
@@ -23,3 +22,4 @@
 ### Интерфейс:
 1. Ajax, администрирование, авторизация: https://drive.google.com/file/d/1U2hxZcspzEgWeA4wNyXp4dzwdexvRGsD/view?usp=sharing
 2. RabbitMQ: https://drive.google.com/file/d/1GL6bvAakGewXZhgMM1Zvs54AfZK33goy/view?usp=drive_link
+
