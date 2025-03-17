@@ -15,7 +15,7 @@
 3. RabbitMQ: позволяет создавать очередь из запросов на внешние сервисы, не блокируя основной поток. В данном проекте подключение к RabbitMQ реализовано с помощью проекта EmailWorkService, который в свою очередь развернута как служба .msc. Так же стоит отметить про подключение к email аккаунту с которой отправлются письма. Google аккаунт позволяет создавать пороли для приложений  "SmtpPassword": "qfpb mfgs jijh rvcv"(EmailWorkerService\appsettings.json), и используя основной ник, можно безопасно рассылать письма со своего приложения
 
 ## Архитектура:
-![Новый рисунок (1)](https://github.com/user-attachments/assets/2d228cfe-d320-4392-9733-d6810afc2d14)
+![Новый рисунок (2)](https://github.com/user-attachments/assets/7e318554-dedf-439b-955f-ba9c9f839889)
 
 ### Интерфейс:
 1. Ajax, администрирование, авторизация: https://drive.google.com/file/d/1U2hxZcspzEgWeA4wNyXp4dzwdexvRGsD/view?usp=sharing
