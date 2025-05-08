@@ -8,7 +8,7 @@
             "args": [
                 "build",
                 "${workspaceFolder}/WorkerService/WorkerService.csproj",
-                "${workspaceFolder}/DrinksProject/DrinksProject.csproj",
+                "${workspaceFolder}/WebStore/WebStore.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],

@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DrinksProject\DrinksProject.csproj">
+    <ProjectReference Include="..\WebStore\WebStore.csproj">
       <TreatAsUsed>true</TreatAsUsed>
     </ProjectReference>
   </ItemGroup>

@@ -1,0 +1,16 @@
+﻿@model IEnumerable<WebStore.Models.Drinks>
+
+<label for="codeDrink">Код напитка:</label>&nbsp;
+<input type="number" id="codeDrink" name="codeDrink" min=@Html.DisplayFor(model => model.First().Id)
+       max=@Html.DisplayFor(model => model.Last().Id)>
+<br>
+<br>
+<label for="valueCoin">Сумма(руб):</label>&nbsp;
+<input type="number" id="valueCoin" name="valueCoin">&nbsp;
+<input id="btnCoin1" onclick="SetCoin(id)" class="submit submit3" type="submit" value=1>
+<input id="btnCoin2" onclick="SetCoin(id)" class="submit submit3" type="submit" value=2>
+<input id="btnCoin5" onclick="SetCoin(id)" class="submit submit3" type="submit" value=5>
+<input id="btnCoin10" onclick="SetCoin(id)" class="submit submit3" type="submit" value=10>
+<br>
+<br>
+<button type="submit" id="btnSetPay" class="submit">Оплатить</button>
