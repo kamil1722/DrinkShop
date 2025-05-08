@@ -1,7 +1,7 @@
 ﻿// DrinksProject/Models/ConfirmEmailViewModel.cs
 using System.ComponentModel.DataAnnotations;
 
-namespace DrinksProject.Models
+namespace DrinksProject.Models.EmailModels
 {
     public class ConfirmEmailViewModel
     {

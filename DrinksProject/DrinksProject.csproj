@@ -7,9 +7,13 @@
 
   <ItemGroup>
     <Compile Remove="Migrations\**" />
+    <Compile Remove="Models\AuthModels\**" />
     <Content Remove="Migrations\**" />
+    <Content Remove="Models\AuthModels\**" />
     <EmbeddedResource Remove="Migrations\**" />
+    <EmbeddedResource Remove="Models\AuthModels\**" />
     <None Remove="Migrations\**" />
+    <None Remove="Models\AuthModels\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,11 +28,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Drinks.AuthModule\Drinks.AuthModule.csproj" />
+    <Folder Include="Data\Migrations\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\Migrations\" />
+    <ProjectReference Include="..\Drinks.AuthModule\Drinks.AuthModule.csproj" />
   </ItemGroup>
 
 </Project>

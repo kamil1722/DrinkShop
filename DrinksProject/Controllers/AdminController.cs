@@ -6,9 +6,9 @@ namespace DrinksProject.Controllers
 {
     public class AdminController : Controller
     {
-        private readonly MyContext _context;
+        private readonly ProductsContext _context;
 
-        public AdminController(MyContext context)
+        public AdminController(ProductsContext context)
         {
             _context = context;
         }
@@ -99,7 +99,7 @@ namespace DrinksProject.Controllers
         {
             if (_context.Drinks == null)
             {
-                return Problem("Entity set 'MyContext.Drinks'  is null.");
+                return Problem("Entity set 'ProductsContext.Drinks'  is null.");
             }
             var drinks = await _context.Drinks.FindAsync(itemId);
             if (drinks != null)

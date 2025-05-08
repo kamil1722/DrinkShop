@@ -3,6 +3,7 @@ using RabbitMQ.Client;
 using System.Text;
 using Newtonsoft.Json;
 using DrinksProject.Models;
+using DrinksProject.Models.EmailModels;
 
 public class RabbitMQService : IRabbitMQService
 {
