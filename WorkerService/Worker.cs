@@ -3,7 +3,7 @@ using RabbitMQ.Client.Events;
 using System.Text;
 using Newtonsoft.Json;
 using EmailWorkerService.Service;
-using DrinksProject.Models.EmailModels;
+using WebStore.Models.EmailModels;
 
 namespace EmailWorkerService
 {
