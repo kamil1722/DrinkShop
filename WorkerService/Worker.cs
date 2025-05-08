@@ -2,21 +2,23 @@ using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
 using Newtonsoft.Json;
-using DrinksProject.Models;
 using EmailWorkerService.Service;
+using DrinksProject.Models.EmailModels;
 
 namespace EmailWorkerService
 {
     public class Worker : BackgroundService
     {
         private readonly ILogger<Worker> _logger;
+
         private readonly string _hostname;
         private readonly string _queueName;
         private readonly string _username;
         private readonly string _password;
+
         private readonly IEmailSender _emailSender;
-        private readonly IConnection _connection;
-        private readonly IModel _channel;
+        private IConnection _connection;
+        private IModel _channel;
 
         public Worker(IConfiguration configuration, ILogger<Worker> logger, IEmailSender emailSender)
         {
@@ -32,37 +34,35 @@ namespace EmailWorkerService
             _logger = logger;
             _emailSender = emailSender;
 
-            // Локальная функция для инициализации RabbitMQ
-            (IConnection connection, IModel channel) InitializeRabbitMq()
+            InitializeRabbitMq();
+        }
+
+        private void InitializeRabbitMq()
+        {
+
+            try
             {
-                try
+                var factory = new ConnectionFactory()
                 {
-                    var factory = new ConnectionFactory()
-                    {
-                        HostName = _hostname,
-                        UserName = _username,
-                        Password = _password
-                    };
+                    HostName = _hostname,
+                    UserName = _username,
+                    Password = _password
+                };
 
-                    var connection = factory.CreateConnection();
-                    var channel = connection.CreateModel();
+                var connection = factory.CreateConnection();
+                var channel = connection.CreateModel();
 
-                    channel.QueueDeclare(queue: _queueName, durable: false, exclusive: false, autoDelete: false, arguments: null);
+                channel.QueueDeclare(queue: _queueName, durable: false, exclusive: false, autoDelete: false, arguments: null);
 
-                    return (connection, channel);
-                }
-                catch (Exception ex)
-                {
-                    string message = $"Error initializing RabbitMQ listener: {ex.Message}";
-                    _logger.LogError(message);
-                    throw;
-                }
+                _connection = connection;
+                _channel = channel;
             }
-
-            // Вызов локальной функции и присвоение значений полям
-            var rabbitMq = InitializeRabbitMq();
-            _connection = rabbitMq.connection;
-            _channel = rabbitMq.channel;
+            catch (Exception ex)
+            {
+                string message = $"Error initializing RabbitMQ listener: {ex.Message}";
+                _logger.LogError(message);
+                throw;
+            }
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)

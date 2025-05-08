@@ -7,17 +7,18 @@ using Drinks.AuthModule.Services.Interface;
 var builder = WebApplication.CreateBuilder(args);
 
 // Получаем строку подключения из конфигурации (appsettings.json)
-string connectionString = builder.Configuration.GetConnectionString("MyContext") ?? throw new InvalidOperationException("Connection string 'MyContext' not found.");
+string connStr_ProductsContext = builder.Configuration.GetConnectionString("ProductsContext") ?? throw new InvalidOperationException("Connection string 'ProductsContext' not found.");
+string connStr_MyIdentityDbContext = builder.Configuration.GetConnectionString("MyIdentityDbContext") ?? throw new InvalidOperationException("Connection string 'MyIdentityDbContext' not found.");
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
 //  Добавляем ASP.NET Identity:
 builder.Services.AddDbContext<MyIdentityDbContext>(options => // Используйте MyIdentityDbContext
-    options.UseSqlServer(connectionString, b => b.MigrationsAssembly("DrinksProject"))); // Указываем строку подключения и сборку миграций
+    options.UseSqlServer(connStr_MyIdentityDbContext, b => b.MigrationsAssembly("DrinksProject"))); // Указываем строку подключения и сборку миграций
 
-builder.Services.AddDbContext<MyContext>(options =>
-    options.UseSqlServer(connectionString)); // Используйте ту же строку подключения
+builder.Services.AddDbContext<ProductsContext>(options =>
+    options.UseSqlServer(connStr_ProductsContext)); // Используйте ту же строку подключения
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false) // Настройте параметры Identity
     .AddEntityFrameworkStores<MyIdentityDbContext>(); // Указываем контекст для Identity

@@ -1,4 +1,4 @@
-USE [DrinksDB]
+USE [ProductsDB]
 GO
 
 /****** Object:  Table [dbo].[Drinks]    Script Date: 14.08.2023 18:32:26 ******/

@@ -1,5 +1,5 @@
 ﻿// DrinksProject/Models/EmailConfirmationMessage.cs
-namespace DrinksProject.Models
+namespace DrinksProject.Models.EmailModels
 {
     public class EmailConfirmationMessage
     {

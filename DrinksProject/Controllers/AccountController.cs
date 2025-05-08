@@ -1,6 +1,7 @@
-﻿using Drinks.AuthModule.Services.Interface;
-using DrinksProject.Models;
-using DrinksProject.ViewModels;
+﻿using Drinks.AuthModule.Models;
+using Drinks.AuthModule.Services.Interface;
+using Drinks.AuthModule.ViewModels;
+using DrinksProject.Models.EmailModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
@@ -172,7 +173,7 @@ namespace DrinksProject.Controllers
         {
             var currentUser = _authenticationService.GetCurrentUserAsync().Result;
 
-            var model = new UserViewModel
+            var model = new UserProfile
             {
                 Username = currentUser.Username,
                 Email = currentUser.Email,
